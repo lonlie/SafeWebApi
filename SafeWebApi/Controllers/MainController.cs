@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using SafeWebApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -12,9 +14,11 @@ namespace SafeWebApi.Controllers
     {
         [AllowAnonymous]
         // GET: api/Main
-        public string Get()
+        public Result Get()
         {
-            return TokenTool.GetToken(Guid.NewGuid());
+            var setting = new Newtonsoft.Json.JsonSerializerSettings();
+            setting.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            return new ResultSingle<dynamic>() { ReturnObject = new { Token = TokenTool.GetToken(Guid.NewGuid()) }, Status = RStatus.S0001 };
         }
 
         // GET: api/Main/5
