@@ -9,9 +9,16 @@ using System.Web.Http;
 
 namespace SafeWebApi.Controllers
 {
+    /// <summary>
+    /// Main
+    /// </summary>
     [Auth]
     public class MainController : ApiController
     {
+        /// <summary>
+        /// 测试获取
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         // GET: api/Main
         public Result Get()
