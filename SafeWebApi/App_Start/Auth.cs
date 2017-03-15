@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -24,20 +25,44 @@ namespace SafeWebApi
             {
                 base.OnActionExecuting(actionContext);
             }
-
-            //Token认证不通过
-            IEnumerable<string> values;
-            var haveToken = actionContext.Request.Headers.TryGetValues("token", out values);
-            if (haveToken && TokenTool.CheckToken(values.ToList()[0]))
-            {
-                base.OnActionExecuting(actionContext);
-            }
             else
             {
-                var response = HttpContext.Current.Response;
-                //response.ContentType = "application/json";
-                response.Write("{firstName: \"John\"}");
-                response.End();
+                var result = new Result();
+                IEnumerable<string> values;
+                var haveToken = actionContext.Request.Headers.TryGetValues("token", out values);
+
+                //是否存在Token
+                if (haveToken)
+                {
+                    var token = values.ToList()[0];
+                    if (!string.IsNullOrWhiteSpace(token))
+                    {
+                        result = TokenTool.CheckToken(values.ToList()[0]);
+                        if (result.IsPass)
+                        {
+                            base.OnActionExecuting(actionContext);
+                        }
+                    }
+                    else
+                    {
+                        result.Status = RStatus.S0003;
+                    }
+                }
+                else
+                {
+                    result.Status = RStatus.S0005;
+                }
+
+                //返回错误信息
+                if (!result.IsPass)
+                {
+                    var response = HttpContext.Current.Response;
+                    response.ContentType = "application/json;charset=utf-8";
+                    response.ClearContent();
+                    byte[] bytes = null;
+                    bytes = Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(result));
+                    response.BinaryWrite(bytes);
+                }
             }
         }
     }

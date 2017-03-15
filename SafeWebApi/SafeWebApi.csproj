@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Auth.cs" />
+    <Compile Include="App_Start\Result.cs" />
     <Compile Include="App_Start\TokenTool.cs" />
     <Compile Include="App_Start\User.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />

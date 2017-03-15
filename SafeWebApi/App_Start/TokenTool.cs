@@ -3,6 +3,8 @@ using Newtonsoft.Json;
 using System.Text;
 using System.Security.Cryptography;
 using System.Globalization;
+using System.IO.Compression;
+using System.IO;
 
 namespace SafeWebApi
 {
@@ -25,6 +27,7 @@ namespace SafeWebApi
             var temp = JsonConvert.SerializeObject(content);
             var es1 = Encrypt.EncryptDES(temp, key1);
             var es2 = Encrypt.EncryptDES(es1, key2);
+
             return es2;
         }
 
@@ -43,6 +46,7 @@ namespace SafeWebApi
                 content = JsonConvert.DeserializeObject<TokenContent>(es1);
             }
             catch (Exception) { }
+
             return content;
         }
 
@@ -51,27 +55,30 @@ namespace SafeWebApi
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static bool CheckToken(string token)
+        public static Result CheckToken(string token)
         {
+            Result result = new Result();
             var content = GetTokenContent(token);
             //检验失败
             if (content == null)
             {
-                return false;
+                result.Status = RStatus.S0003;
             }
             //过期
             else if (content.Expires < DateTime.Now)
             {
-                return false;
+                result.Status = RStatus.S0004;
             }
             else
             {
-                return true;
+                result.Status = RStatus.S0001;
             }
+
+            return result;
         }
 
         /// <summary>
-        /// 
+        /// 获取用户
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>

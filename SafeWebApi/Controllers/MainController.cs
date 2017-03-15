@@ -7,10 +7,10 @@ using System.Web.Http;
 
 namespace SafeWebApi.Controllers
 {
-    //[Auth]
+    [Auth]
     public class MainController : ApiController
     {
-        [Auth]
+        [AllowAnonymous]
         // GET: api/Main
         public string Get()
         {
