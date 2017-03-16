@@ -240,6 +240,7 @@ namespace SafeWebApi
                         // "apiKeyIn" can either be "query" or "header"                                                
                         //
                         //c.EnableApiKeySupport("apiKey", "header");
+                        c.EnableApiKeySupport("token", "header");
                     });
         }
         protected static string GetXmlCommentsPath()
