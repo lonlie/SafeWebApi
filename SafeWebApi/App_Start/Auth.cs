@@ -64,6 +64,7 @@ namespace SafeWebApi
 
                     bytes = Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(result, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
                     response.BinaryWrite(bytes);
+                    response.End();
                 }
             }
         }
