@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Auth.cs" />
+    <Compile Include="App_Start\ModelValidate.cs" />
     <Compile Include="App_Start\Result.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\TokenTool.cs" />

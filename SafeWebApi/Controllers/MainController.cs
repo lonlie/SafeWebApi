@@ -13,6 +13,7 @@ namespace SafeWebApi.Controllers
     /// Main
     /// </summary>
     [Auth]
+    [ModelValidate]
     public class MainController : ApiController
     {
         /// <summary>

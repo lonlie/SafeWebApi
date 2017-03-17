@@ -180,6 +180,11 @@ namespace SafeWebApi
         /// </summary>
         [Description("未授权")]
         S0005,
+        /// <summary>
+        /// 参数有误
+        /// </summary>
+        [Description("参数有误")]
+        S0009,
 
         #endregion
 
