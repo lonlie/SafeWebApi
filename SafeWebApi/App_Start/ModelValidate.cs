@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Web;
 using System.Web.Http.Controllers;
@@ -38,13 +40,7 @@ namespace SafeWebApi
 
             if (!isValidate)
             {
-                var response = HttpContext.Current.Response;
-                response.ContentType = "application/json;charset=utf-8";
-                response.ClearContent();
-                byte[] bytes = null;
-                bytes = Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(result, new Newtonsoft.Json.JsonSerializerSettings() { ContractResolver = new CamelCasePropertyNamesContractResolver() }));
-                response.BinaryWrite(bytes);
-                response.End();
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.OK, result);
             }
             else
             {
